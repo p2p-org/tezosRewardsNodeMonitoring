@@ -1,15 +1,28 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
+	"time"
+
+	"github.com/opsgenie/opsgenie-go-sdk-v2/client"
+	// "github.com/opsgenie/opsgenie-go-sdk-v2/alert"
+	"github.com/opsgenie/opsgenie-go-sdk-v2/policy"
 
 	"nodeChecker/internal/checker"
 )
 
 func main() {
 	nodeChecker, err := checker.NewNodePortChecker()
+	key := os.Args[1]
 	if err != nil {
 		log.Panic(err)
+	}
+	_, err = policy.NewClient(&client.Config{ApiKey: key})
+	if err != nil {
+		fmt.Println("error occured while creating policy client")
+		return
 	}
 	trdChecker, err := checker.NewTRDChecker()
 	if err != nil {
@@ -18,9 +31,12 @@ func main() {
 	checkers := []checker.Checker{nodeChecker, trdChecker}
 
 	// chckers loop
-	for _, ch := range checkers {
-		if err = ch.AssertRunning(); err != nil {
-			log.Println(err)
+	for {
+		for _, ch := range checkers {
+			if err = ch.AssertRunning(); err != nil {
+				log.Println(err)
+			}
+			time.Sleep(time.Minute)
 		}
 	}
 }
