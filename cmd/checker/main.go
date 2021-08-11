@@ -39,7 +39,6 @@ func main() {
 			if err = ch.AssertRunning(); err != nil {
 				log.Println(err)
 				responder := alert.Responder{
-					Type:     alert.UserResponder,
 					Username: username,
 				}
 				req := alert.CreateAlertRequest{
