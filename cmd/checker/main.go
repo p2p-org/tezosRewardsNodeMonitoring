@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/opsgenie/opsgenie-go-sdk-v2/alert"
 	"github.com/opsgenie/opsgenie-go-sdk-v2/client"
@@ -43,7 +44,7 @@ func main() {
 					log.Panic(err)
 				}
 			}
-			// time.Sleep(time.Minute)
+			time.Sleep(time.Minute)
 		}
 	}
 }
