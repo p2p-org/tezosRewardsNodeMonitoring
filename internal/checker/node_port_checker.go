@@ -2,6 +2,7 @@ package checker
 
 import (
 	"errors"
+	"log"
 	"time"
 
 	goTezos "github.com/goat-systems/go-tezos/v4/rpc"
@@ -22,6 +23,7 @@ func (c *nodeUrlChecker) AssertRunning() (err error) {
 	if err != nil {
 		return err
 	}
+	log.Printf("Current head timestamp %v", head.Header.Timestamp)
 	if head.Header.Timestamp.Sub(time.Now()) > time.Minute*time.Duration(10) {
 		return errors.New("node is unsync")
 	}
