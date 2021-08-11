@@ -24,7 +24,7 @@ func (c *nodeUrlChecker) AssertRunning() (err error) {
 		return err
 	}
 	log.Printf("Current head timestamp %v", head.Header.Timestamp)
-	if head.Header.Timestamp.Sub(time.Now()).Minutes() > 10.0 {
+	if time.Now().Sub(head.Header.Timestamp).Minutes() > 10.0 {
 		log.Println("node is unsync")
 		return errors.New("node is unsync")
 	}
