@@ -18,7 +18,7 @@ func (t *trdChecker) AssertRunning() (err error) {
 	if err != nil {
 		return err
 	}
-	if resp.Status != "200" {
+	if resp.StatusCode != 200 {
 		return errors.New(fmt.Sprintf("%s", resp.Status))
 	}
 	return nil

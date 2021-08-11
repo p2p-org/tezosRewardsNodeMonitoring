@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/opsgenie/opsgenie-go-sdk-v2/client"
 	// "github.com/opsgenie/opsgenie-go-sdk-v2/alert"
@@ -36,7 +35,7 @@ func main() {
 			if err = ch.AssertRunning(); err != nil {
 				log.Println(err)
 			}
-			time.Sleep(time.Minute)
+			// time.Sleep(time.Minute)
 		}
 	}
 }
