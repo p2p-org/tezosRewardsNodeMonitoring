@@ -44,7 +44,7 @@ func main() {
 					log.Panic(err)
 				}
 			}
-			time.Sleep(time.Minute)
+			time.Sleep(time.Minute * time.Duration(10))
 		}
 	}
 }
