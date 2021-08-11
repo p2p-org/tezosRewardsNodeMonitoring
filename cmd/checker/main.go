@@ -47,7 +47,8 @@ func main() {
 					Priority:   alert.P1,
 					Responders: []alert.Responder{responder},
 				}
-				if _, err := alertCli.Create(context.Background(), &req); err != nil {
+				if resp, err := alertCli.Create(context.Background(), &req); err != nil {
+					log.Println(resp.Result)
 					log.Panic(err)
 				}
 			}
