@@ -38,7 +38,8 @@ func main() {
 			if err = ch.AssertRunning(); err != nil {
 				log.Println(err)
 				req := alert.CreateAlertRequest{
-					Message: err.Error(),
+					Message:  err.Error(),
+					Priority: alert.P1,
 				}
 				if _, err := alertCli.Create(context.Background(), &req); err != nil {
 					log.Panic(err)
