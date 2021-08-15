@@ -20,13 +20,13 @@ func main() {
 	nodeChecker, err := checker.NewNodePortChecker()
 	if err != nil {
 		log.Println(err)
-		alertManager.SendAlert(err.Error(), "P1")
+		alertManager.SendAlert("bootsrap error", err.Error(), "P1")
 		return
 	}
 	trdChecker, err := checker.NewTRDChecker()
 	if err != nil {
 		log.Println(err)
-		alertManager.SendAlert(err.Error(), "P1")
+		alertManager.SendAlert("bootstrap error", err.Error(), "P1")
 		return
 	}
 	checkers := []checker.Checker{nodeChecker, trdChecker}
@@ -36,7 +36,7 @@ func main() {
 		for _, ch := range checkers {
 			if err = ch.AssertRunning(); err != nil {
 				log.Println(err)
-				if err = alertManager.SendAlert(err.Error(), "P1"); err != nil {
+				if err = alertManager.SendAlert(ch.GetTitle(), err.Error(), "P1"); err != nil {
 					log.Fatalln(err)
 				}
 			}

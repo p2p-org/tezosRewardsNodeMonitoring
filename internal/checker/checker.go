@@ -7,4 +7,5 @@ const (
 
 type Checker interface {
 	AssertRunning() error
+	GetTitle() string
 }

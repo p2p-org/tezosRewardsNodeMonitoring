@@ -9,13 +9,12 @@ import (
 )
 
 const (
-	publicRpc = "http://mainnet-tezos.giganode.io"
-	localRpc  = "http://localhost:8732"
+	localRpc    = "http://localhost:8732"
+	nodeChecker = "NodeChecker"
 )
 
 type nodeUrlChecker struct {
 	localRpcCli *goTezos.Client
-	// publicRpcCli *goTezos.Client
 }
 
 func (c *nodeUrlChecker) AssertRunning() (err error) {
@@ -29,6 +28,10 @@ func (c *nodeUrlChecker) AssertRunning() (err error) {
 		return errors.New("node is unsync")
 	}
 	return nil
+}
+
+func (c *nodeUrlChecker) GetTitle() string {
+	return nodeChecker
 }
 
 func NewNodePortChecker() (c Checker, err error) {

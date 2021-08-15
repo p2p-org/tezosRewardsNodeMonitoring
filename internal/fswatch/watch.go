@@ -1,6 +1,7 @@
 package fswatch
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -28,7 +29,7 @@ func (rw *rwatcher) Watch() {
 			select {
 			case event := <-w.Event:
 				log.Println(event)
-				rw.alertmanager.SendAlert(event.String(), "P1")
+				rw.alertmanager.SendAlert("TRDReport", fmt.Sprintf("Report %s is created", event.FileInfo.Name()), "P4")
 			case err := <-w.Error:
 				log.Fatalln(err)
 			case <-w.Closed:

@@ -7,13 +7,14 @@ import (
 )
 
 const (
-	trdUrl = "http://localhost:6732/authorized_keys"
+	trdUrl         = "http://localhost:6732/authorized_keys"
+	trdSignerTitle = "SignerChecker"
 )
 
-type trdChecker struct {
+type trdSignerChecker struct {
 }
 
-func (t *trdChecker) AssertRunning() (err error) {
+func (t *trdSignerChecker) AssertRunning() (err error) {
 	resp, err := http.Get(trdUrl)
 	if err != nil {
 		return err
@@ -24,6 +25,10 @@ func (t *trdChecker) AssertRunning() (err error) {
 	return nil
 }
 
+func (t *trdSignerChecker) GetTitle() string {
+	return trdSignerTitle
+}
+
 func NewTRDChecker() (c Checker, err error) {
-	return &trdChecker{}, nil
+	return &trdSignerChecker{}, nil
 }
