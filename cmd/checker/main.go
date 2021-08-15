@@ -25,15 +25,14 @@ func main() {
 	key := os.Args[1]
 	username := os.Args[2]
 	nodeChecker, err := checker.NewNodePortChecker()
-	if err != nil {
-		if err = sendAlert(key, username, err.Error(), "P1"); err != nil {
-			log.Fatalln(err)
-		}
+	err, done := bootstrapAlert(err, key, username)
+	if done {
 		return
 	}
 	trdChecker, err := checker.NewTRDChecker()
-	if err != nil {
-		log.Panic(err)
+	err, done = bootstrapAlert(err, key, username)
+	if done {
+		return
 	}
 	checkers := []checker.Checker{nodeChecker, trdChecker}
 
@@ -49,4 +48,15 @@ func main() {
 			time.Sleep(time.Minute * time.Duration(10))
 		}
 	}
+}
+
+func bootstrapAlert(err error, key string, username string) (error, bool) {
+	if err != nil {
+		log.Println(err)
+		if err = sendAlert(key, username, err.Error(), "P1"); err != nil {
+			log.Fatalln(err)
+		}
+		return nil, true
+	}
+	return err, false
 }
