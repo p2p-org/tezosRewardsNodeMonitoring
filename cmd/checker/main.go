@@ -7,12 +7,16 @@ import (
 
 	"nodeChecker/internal/alerts"
 	"nodeChecker/internal/checker"
+	"nodeChecker/internal/fswatch"
 )
 
 func main() {
 	key := os.Args[1]
 	username := os.Args[2]
+	folder := os.Args[3]
 	alertManager := alerts.NewAlertManager(username, key)
+	reportsWatcher := fswatch.NewReportsWatcher(folder, alertManager)
+	go reportsWatcher.Watch()
 	nodeChecker, err := checker.NewNodePortChecker()
 	if err != nil {
 		log.Println(err)
@@ -40,14 +44,3 @@ func main() {
 		}
 	}
 }
-
-//func bootstrapAlert(err error, key string, username string) (error, bool) {
-//	if err != nil {
-//		log.Println(err)
-//		if err = alertManager.SendAlert(key, username, err.Error(), "P1"); err != nil {
-//			log.Fatalln(err)
-//		}
-//		return nil, true
-//	}
-//	return err, false
-//}

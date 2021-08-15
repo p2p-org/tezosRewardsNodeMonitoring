@@ -44,3 +44,10 @@ func (rw *rwatcher) Watch() {
 		log.Fatalln(err)
 	}
 }
+
+func NewReportsWatcher(folder string, alertmanager alerts.AlertManager) ReportsWatcher {
+	return &rwatcher{
+		folder:       folder,
+		alertmanager: alertmanager,
+	}
+}
