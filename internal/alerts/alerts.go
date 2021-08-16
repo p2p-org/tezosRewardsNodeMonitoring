@@ -8,7 +8,7 @@ import (
 const (
 	sendAlertCommand = "lamp createAlert --description \"%s\" --message \"%s\" --apiKey \"%s\" " +
 		"--users %s --priority %s"
-	sendHeartbeatCommand = "lamp pingHeartbeat --name %s"
+	sendHeartbeatCommand = "lamp pingHeartbeat --name %s --apiKey %s"
 )
 
 type AlertManager interface {
@@ -27,7 +27,7 @@ func (m *manager) SendAlert(message, desc, priority string) (err error) {
 }
 
 func (m *manager) SendHeartbeat(name string) (err error) {
-	run := fmt.Sprintf(sendHeartbeatCommand, name)
+	run := fmt.Sprintf(sendHeartbeatCommand, name, m.key)
 	_, err = exec.Command("bash", "-c", run).Output()
 	return err
 }
