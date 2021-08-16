@@ -6,12 +6,14 @@ import (
 )
 
 const (
-	cmd = "lamp createAlert --description \"%s\" --message \"%s\" --apiKey \"%s\" " +
+	sendAlertCommand = "lamp createAlert --description \"%s\" --message \"%s\" --apiKey \"%s\" " +
 		"--users %s --priority %s"
+	sendHeartbeatCommand = "lamp pingHeartbeat --name %s"
 )
 
 type AlertManager interface {
 	SendAlert(message, desc, priority string) (err error)
+	SendHeartbeat(name string) (err error)
 }
 
 type manager struct {
@@ -19,7 +21,13 @@ type manager struct {
 }
 
 func (m *manager) SendAlert(message, desc, priority string) (err error) {
-	run := fmt.Sprintf(cmd, message, desc, m.key, m.user, priority)
+	run := fmt.Sprintf(sendAlertCommand, message, desc, m.key, m.user, priority)
+	_, err = exec.Command("bash", "-c", run).Output()
+	return err
+}
+
+func (m *manager) SendHeartbeat(name string) (err error) {
+	run := fmt.Sprintf(sendHeartbeatCommand, name)
 	_, err = exec.Command("bash", "-c", run).Output()
 	return err
 }

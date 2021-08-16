@@ -15,6 +15,14 @@ func main() {
 	username := os.Args[2]
 	folder := os.Args[3]
 	alertManager := alerts.NewAlertManager(username, key)
+	go func() {
+		for {
+			if err := alertManager.SendHeartbeat("TRDVM"); err != nil {
+				log.Fatal(err)
+			}
+			time.Sleep(time.Minute * time.Duration(5))
+		}
+	}()
 	reportsWatcher := fswatch.NewReportsWatcher(folder, alertManager)
 	go reportsWatcher.Watch()
 	nodeChecker, err := checker.NewNodePortChecker()
