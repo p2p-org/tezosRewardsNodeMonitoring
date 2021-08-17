@@ -23,7 +23,7 @@ func (c *nodeUrlChecker) AssertRunning() (err error) {
 		return err
 	}
 	log.Printf("Current head timestamp %v", head.Header.Timestamp)
-	if time.Now().Sub(head.Header.Timestamp).Minutes() > 10.0 {
+	if time.Now().Sub(head.Header.Timestamp).Minutes() > 1.9 {
 		log.Println("node is unsync")
 		return errors.New("node is unsync")
 	}
@@ -36,10 +36,6 @@ func (c *nodeUrlChecker) GetTitle() string {
 
 func NewNodePortChecker() (c Checker, err error) {
 	c = &nodeUrlChecker{}
-	//c.(*nodeUrlChecker).publicRpcCli, err = goTezos.New(publicRpc)
-	//if err != nil {
-	//	return nil, err
-	//}
 	c.(*nodeUrlChecker).localRpcCli, err = goTezos.New(localRpc)
 	if err != nil {
 		return nil, err
