@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/goat-systems/go-tezos/v4 v4.0.4
-	github.com/jarcoal/httpmock v1.0.8
+	github.com/jarcoal/httpmock v1.4.1
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/radovskyb/watcher v1.0.7
 	github.com/stretchr/testify v1.7.0
